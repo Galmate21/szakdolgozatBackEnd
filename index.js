@@ -28,6 +28,14 @@ function getId(raw) {
   }
 }
 
+function getClient() {
+  const MongoClient = require("mongodb").MongoClient;
+  const uri =
+    "mongodb+srv://teszt:asdasd123@cluster0.ts1ao.mongodb.net/szakdolgozat?retryWrites=true&w=majority";
+  return new MongoClient(uri, { useNewUrlParser: true });
+}
+
+
 
 //Adatbázis kapcsolat
 
@@ -38,180 +46,220 @@ mongoose.connect('mongodb+srv://teszt:asdasd123@cluster0.ts1ao.mongodb.net/szakd
 })
 app.use(bodyParser.json());
 app.use(express.json());
+
+//login,register
 app.use('/felhasznalo',FelhasznaloRoute);
 
 
 
-app.get('/admins', async (req, res) => {
-	const admin = await Admin.find();
-	res.send(admin);
-})
 
 //Termékekre vonatkozó CRUD műveletek
 //get
-app.get('/termekek', async (req, res) => {
-	const product = await Product.find();
-	res.send(product);
-})
-//post
-app.post('/termekek',async (req,res)=>{
+app.get("/termekek", function (req, res) {
   
- const body={
-      termekNev:req.body.termekNev,
-      meret:req.body.meret,
-      Ar:req.body.Ar,
- }
- const response=await Product.create(body)
-res.send(response);
-})
-//put
-app.put('/termekek/:id',async (req,res)=>{
-    const id=getId(req.params.id);
-  const UjTermek={
-       termekNev:req.body.termekNev,
-       meret:req.body.meret,
-       Ar:req.body.Ar,
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("termekek");
+    const termekek = await collection
+    .find()
+    .toArray();
+    res.send(termekek);
+    client.close();
+  });
+});
+
+//post
+app.post("/termeket", bodyParser.json(), function (req, res) {
+  const body={
+    termekNev:req.body.termekNev,
+    meret:req.body.meret,
+    Ar:req.body.Ar,
   }
-  if (!id) {
-    res.send({ error: "Nem megfelelő azonosító" });
-    return;
-  }
-  const response=await Product.findOneAndUpdate( { _id: id },
-    { $set: UjTermek }, {
-      new: true});
-    if (!response.ok) {
-      res.send({ error: "Nem található ilyen azonosítóval termék" });
+
+const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("termekek");
+    const result = await collection.insertOne(body);
+    if (!result.insertedCount) {
+      res.send({ error: "insert error" });
       return;
     }
- res.send(response);
- })
- //delete
- app.delete('/termekek/:id',async (req,res)=>{
-  const id=getId(req.params.id);
+    res.send(body);
+    client.close();
+  });
+});
 
-if (!id) {
-  res.send({ error: "Nem megfelelő azonosító" });
-  return;
-}
-const response=await Product.findOneAndDelete( { _id: id },function (err, docs) {
-  if (err){
-    console.log(err);
-    res.send({ error: "Nem található ilyen azonosítóval termék" });
-}
-else{
-    console.log("Törölt termék : ", docs);
-    res.send(docs);
-}
-}) 
-res.send(response);
+//put
+app.put("/termekek/:id", bodyParser.json(), function (req, res) {
+  const ujTermek = {
+    termekNev:req.body.termekNev,
+    meret:req.body.meret,
+    Ar:req.body.Ar,
+  };
+
+  const id = getId(req.params.id);
+  if (!id) {
+    res.send({ error: "invalid id" });
+    return;
+  }
+
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("termekek");
+    const result = await collection.findOneAndUpdate(
+      { _id: id },
+      { $set: ujTermek }
+    );
+
+    if (!result.ok) {
+      res.send({ error: "not found" });
+      return;
+    }
+    res.send(result.value);
+    client.close();
+  });
+});
+ //delete
+ app.delete("/termekek/:id", function (req, res) {
+  const id = getId(req.params.id);
+  if (!id) {
+    res.send({ error: "invalid id" });
+    return;
+  }
+
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("termekek");
+    const result = await collection.deleteOne({ _id: id });
+    if (!result.deletedCount) {
+      res.send({ error: "not found" });
+      return;
+    }
+    res.send({ id: req.params.id });
+    client.close();
+  });
 });
 
 //id get
-app.get('/termekek/:id',async (req,res)=>{
-  const id=getId(req.params.id);
+app.get("/termekek/:id", function (req, res) {
+  const id = getId(req.params.id);
+  if (!id) {
+    res.send({ error: "invalid id" });
+    return;
+  }
 
-if (!id) {
-  res.send({ error: "Nem megfelelő azonosító" });
-  return;
-}
-const response=await Felhasznalo.findOne( { _id: id },function (err, docs) {
-  if (err){
-    console.log(err);
-    res.send({ error: "Nem található ilyen azonosítóval termék" });
-}
-else{
-    
-    res.send(docs);
-}
-}) 
-res.send(response);
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("termekek");
+    const termek = await collection.findOne({ _id: id });
+    if (!termek) {
+      res.send({ error: "not found" });
+      return;
+    }
+    res.send(termek);
+    client.close();
+  });
 });
-
 
 
 //felhasználókra vonatkozó CRUD műveletek
+
 //get
-app.get('/felhasznalok', async (req, res) => {
-	const user = await Felhasznalo.find();
-	res.send(user);
-})
-//post
-app.post('/felhasznalok',async (req,res)=>{
+app.get("/felhasznalok", function (req, res) {
   
- const body={
-      nev:req.body.nev,
-      cim:req.body.cim,
-      felhasznalonev:req.body.felhasznalonev,
-      jelszo:CryptoJS.MD5(req.body.jelszo),
- }
- const response=await Felhasznalo.create(body)
-res.send(response);
-})
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const felhasznalok = await collection
+    .find()
+    .toArray();
+    res.send(felhasznalok);
+    client.close();
+  });
+});
+
 //put
-app.put('/felhasznalok/:id',async (req,res)=>{
-    const id=getId(req.params.id);
-  const friss={
+app.put("/felhasznalok/:id", bodyParser.json(),async function (req, res) {
+  
+  var jelszo=req.body.jelszo;
+ const salt=await bcrypt.genSaltSync(10);
+  jelszo=await bcrypt.hash(jelszo,salt);
+
+  const ujFelhasznalo = {
     nev:req.body.nev,
     cim:req.body.cim,
     felhasznalonev:req.body.felhasznalonev,
-    jelszo:CryptoJS.MD5(req.body.jelszo),
-  }
+    jelszo:jelszo,
+    email:req.body.email,
+    isAdmin:Boolean(req.body.isAdmin)
+  };
+
+  const id = getId(req.params.id);
   if (!id) {
-    res.send({ error: "Nem megfelelő azonosító" });
+    res.send({ error: "invalid id" });
     return;
   }
-  const response=await Product.findOneAndUpdate( { _id: id },
-    { $set: friss }, {
-      new: true});
-    if (!response.ok) {
-      res.send({ error: "Nem található ilyen azonosítóval felhasználó" });
+
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const result = await collection.findOneAndUpdate(
+      { _id: id },
+      { $set: ujFelhasznalo }
+    );
+
+    if (!result.ok) {
+      res.send({ error: "not found" });
       return;
     }
- res.send(response);
- })
+    res.send(result.value);
+ 
+    client.close();
+  });
+});
  //delete
- app.delete('/felhasznalok/:id',async (req,res)=>{
-  const id=getId(req.params.id);
+ app.delete("/felhasznalok/:id", function (req, res) {
+  const id = getId(req.params.id);
+  if (!id) {
+    res.send({ error: "invalid id" });
+    return;
+  }
 
-if (!id) {
-  res.send({ error: "Nem megfelelő azonosító" });
-  return;
-}
-const response=await Felhasznalo.findOneAndDelete( { _id: id },function (err, docs) {
-  if (err){
-    console.log(err);
-    res.send({ error: "Nem található ilyen azonosítóval felhasználó" });
-}
-else{
-    console.log("Törölt felhasználó : ", docs);
-    res.send(docs);
-}
-}) 
-res.setHeader('Content-Type', 'application/json');
-res.send(response);
-
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const result = await collection.deleteOne({ _id: id });
+    if (!result.deletedCount) {
+      res.send({ error: "not found" });
+      return;
+    }
+    res.send({ id: req.params.id });
+    client.close();
+  });
 });
 
 //id get
-app.get('/felhasznalok/:id',async (req,res)=>{
-  const id=getId(req.params.id);
+app.get("/felhasznalok/:id", function (req, res) {
+  const id = getId(req.params.id);
+  if (!id) {
+    res.send({ error: "invalid id" });
+    return;
+  }
 
-if (!id) {
-  res.send({ error: "Nem megfelelő azonosító" });
-  return;
-}
-const response=await Felhasznalo.findOne( { _id: id },function (err, docs) {
-  if (err){
-    console.log(err);
-    res.send({ error: "Nem található ilyen azonosítóval felhasználó" });
-}
-else{
-    
-    res.send(docs);
-}
-}) 
-res.send(response);
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const felhasznalo = await collection.findOne({ _id: id });
+    if (!felhasznalo) {
+      res.send({ error: "not found" });
+      return;
+    }
+    res.send(felhasznalo);
+    client.close();
+  });
 });
+
+
 
 
 console.log("A szerver fut az 5501 as porton");

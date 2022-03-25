@@ -5,13 +5,13 @@ const Felhasznalo=require('../models/felhasznalok');
 const generateToken = require('../utils/generateToken');
 
 const register=asyncHandler(async(req, res)=>{
-    const {nev,cim,felhasznalonev,jelszo,email}=req.body;
+    const {nev,cim,felhasznalonev,jelszo,email,isAdmin}=req.body;
 
     const felhasznaloVan=await Felhasznalo.findOne({email,felhasznalonev});
 
     if(felhasznaloVan){
         res.status(400);
-        res.send("Ilyen felhastnáló már regisztrálva lett korábban");
+        res.send("Ilyen felhasználó már regisztrálva lett korábban");
         return;
     }
     const felhasznalo=await Felhasznalo.create({
@@ -19,7 +19,8 @@ const register=asyncHandler(async(req, res)=>{
         cim,
         felhasznalonev,
         jelszo,
-        email
+        email,
+        isAdmin
     });
     if(felhasznalo){
         res.status(201).json({
@@ -27,12 +28,15 @@ const register=asyncHandler(async(req, res)=>{
             nev:felhasznalo.nev,
             felhasznalonev:felhasznalo.felhasznalonev,
             email:felhasznalo.email,
-            token:generateToken(felhasznalo._id)
+            isAdmin:felhasznalo.isAdmin,
+            token:generateToken(felhasznalo._id),
+            uzenet:"Sikeres regisztráció!"
+
         });
-        console.log("krs");
+        
     }else{
-        res.sendStatus(400);
-        res.send("Hiba történt!");
+        res.sendStatus(400).json({error:"Hiba történt"});
+        
         return;
     }
 
@@ -44,16 +48,19 @@ const login=asyncHandler(async(req, res)=>{
     const felhasznalo=await Felhasznalo.findOne({felhasznalonev});
 
     if(felhasznalo&&(await felhasznalo.matchPassword(jelszo))){
-        res.send({
+        res.status(201).json({
             _id:felhasznalo._id,
             nev:felhasznalo.nev,
             felhasznalonev:felhasznalo.felhasznalonev,
             email:felhasznalo.email,
-            token:generateToken(felhasznalo._id)
+            token:generateToken(felhasznalo._id),
+            isAdmin:felhasznalo.isAdmin,
         })
     }else{
         
-        res.send("Hibás név vagy jelszó!");
+        res.status(400).json({
+            error:"Hibás név vagy jelszó!"
+        })
         return;
     }
 

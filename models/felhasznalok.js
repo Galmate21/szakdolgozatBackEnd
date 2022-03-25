@@ -6,7 +6,8 @@ const Felhasznalochema = new mongoose.Schema(
 		cim: { type: String, required: true },
         felhasznalonev:{type:String, require:true, unique: true },
         jelszo: { type: String, required: true },
-        email: { type: String, required: true, unique: true }
+        email: { type: String, required: true, unique: true },
+        isAdmin:{type:Boolean, required:true},
 	},
 	{ collection: 'felhasznalo' }
 )
@@ -19,7 +20,8 @@ Felhasznalochema.methods.matchPassword = async function (enteredPassword) {
     if (!this.isModified("jelszo")) {
       next();
     }
-    const salt = await bcrypt.genSalt(10);
+    
+    const salt = await bcrypt.genSaltSync(10);
     this.jelszo = await bcrypt.hash(this.jelszo, salt);
   });
   
