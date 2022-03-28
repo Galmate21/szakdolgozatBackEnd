@@ -258,9 +258,141 @@ app.get("/felhasznalok/:id", function (req, res) {
     client.close();
   });
 });
+//Megrendeléssel kapcsolatos CRUD műveletek
+//get
 
+//Termékekre vonatkozó CRUD műveletek
+//get
+app.get("/megrendelesek", function (req, res) {
+  
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const megrendelesek = await collection
+    .find()
+    .toArray();
+    res.send(megrendelesek);
+    client.close();
+  });
+});
+//get id
 
+app.get("/megrendelesek/:id", function (req, res) {
+  const id = getId(req.params.id);
+  if (!id) {
+    res.send({ error: "invalid id" });
+    return;
+  }
 
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const megrendeles = await collection.findOne({ _id: id });
+    if (!megrendeles) {
+      res.send({ error: "not found" });
+      return;
+    }
+    res.send(megrendeles);
+    client.close();
+  });
+});
+
+//post
+
+app.post("/megrendelesek/:fId/:tid/:m", bodyParser.json(), function (req, res) {
+
+  const fid = getId(req.params.fId);
+  const tid = getId(req.params.tid);
+  const m = req.params.m;
+
+  const body={
+   
+    felhasznalo: fid,
+    megrendelet_termekek: [
+        {
+            termekId:tid,
+            mennyiseg:Number(m)
+        },
+      
+    ],
+    aktiv: false
+  }
+
+const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const result = await collection.insertOne(body);
+    if (!result.insertedId) {
+      res.send({ error: "insert error" });
+      return;
+    }
+    res.send(body);
+    client.close();
+  });
+});
+
+//delete
+
+app.delete("/megrendelesek/:id", function (req, res) {
+  const id = getId(req.params.id);
+  if (!id) {
+    res.send({ error: "invalid id" });
+    return;
+  }
+
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const result = await collection.deleteOne({ _id: id });
+    if (!result.deletedCount) {
+      res.send({ error: "not found" });
+      return;
+    }
+    res.send({ id: req.params.id });
+    client.close();
+  });
+});
+//put
+
+app.put("/felhasznalok/:id", bodyParser.json(),async function (req, res) {
+  
+  
+
+  const ujmegrendeles = {
+    felhasznalo: fid,
+    megrendelet_termekek: [
+        {
+            termekId:tid,
+            mennyiseg:Number(m)
+        },
+      
+    ],
+    aktiv: req.body.aktiv
+  };
+
+  const id = getId(req.params.id);
+  if (!id) {
+    res.send({ error: "invalid id" });
+    return;
+  }
+
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const result = await collection.findOneAndUpdate(
+      { _id: id },
+      { $set: ujmegrendeles }
+    );
+
+    if (!result.ok) {
+      res.send({ error: "not found" });
+      return;
+    }
+    res.send(result.value);
+ 
+    client.close();
+  });
+});
 
 console.log("A szerver fut az 5501 as porton");
 app.listen(5501);
