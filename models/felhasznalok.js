@@ -15,7 +15,7 @@ Felhasznalochema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.jelszo);
   };
   
-  // will encrypt password everytime its saved
+
   Felhasznalochema.pre("save", async function (next) {
     if (!this.isModified("jelszo")) {
       next();

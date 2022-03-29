@@ -9,7 +9,7 @@ const ObjectId = require("mongodb").ObjectID;
 const CryptoJS=require('crypto-js');
 const bcrypt=require('bcryptjs');
 const jwt=require('jsonwebtoken');
-const Admin = require('./models/admin');
+
 const Product=require('./models/products');
 const bodyParser=require('body-parser');
 const FelhasznaloRoute=require('./routes/FelhasznaloRoute');
@@ -299,22 +299,15 @@ app.get("/megrendelesek/:id", function (req, res) {
 
 //post
 
-app.post("/megrendelesek/:fId/:tid/:m", bodyParser.json(), function (req, res) {
+app.post("/megrendelesek/:fId", bodyParser.json(), function (req, res) {
 
   const fid = getId(req.params.fId);
-  const tid = getId(req.params.tid);
-  const m = req.params.m;
-
+ 
   const body={
    
     felhasznalo: fid,
-    megrendelet_termekek: [
-        {
-            termekId:tid,
-            mennyiseg:Number(m)
-        },
-      
-    ],
+    megrendelt_termekek:[],
+    osszeg:req.body.osszeg,
     aktiv: false
   }
 
@@ -354,19 +347,12 @@ app.delete("/megrendelesek/:id", function (req, res) {
 });
 //put
 
-app.put("/felhasznalok/:id", bodyParser.json(),async function (req, res) {
+app.put("/megrendelesek/:id", bodyParser.json(),async function (req, res) {
   
   
 
   const ujmegrendeles = {
     felhasznalo: fid,
-    megrendelet_termekek: [
-        {
-            termekId:tid,
-            mennyiseg:Number(m)
-        },
-      
-    ],
     aktiv: req.body.aktiv
   };
 
@@ -393,6 +379,43 @@ app.put("/felhasznalok/:id", bodyParser.json(),async function (req, res) {
     client.close();
   });
 });
+
+//megrendelt termék
+app.post("/megrendelt/:tid", bodyParser.json(), function (req, res) {
+  const tid = getId(req.params.tid);
+  const ujRendelt = {
+    mennyiseg: req.body.mennyiseg,
+    termekId:tid
+  };
+
+  const id = getId(req.body.id);
+  if (!id) {
+    res.send({ error: "invalid id" });
+    return;
+  }
+
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const result = await collection.findOneAndUpdate(
+      { _id: id },
+      { $push: { megrendelt_termekek: ujRendelt } },
+      { returnOriginal: false }
+    );
+
+    if (!result.ok) {
+      res.send({ error: "not found" });
+      return;
+    }
+    res.send(result.value);
+    client.close();
+  });
+});
+
+
+
+
+
 
 console.log("A szerver fut az 5501 as porton");
 app.listen(5501);
