@@ -69,18 +69,20 @@ app.get("/termekek", function (req, res) {
 });
 
 //post
-app.post("/termeket", bodyParser.json(), function (req, res) {
+app.post("/termekek", bodyParser.json(), function (req, res) {
   const body={
     termekNev:req.body.termekNev,
     meret:req.body.meret,
     Ar:req.body.Ar,
+    link:req.body.link,
+    Tipus:req.body.Tipus,
   }
 
 const client = getClient();
   client.connect(async (err) => {
     const collection = client.db("szakdolgozat").collection("termekek");
     const result = await collection.insertOne(body);
-    if (!result.insertedCount) {
+    if (!result) {
       res.send({ error: "insert error" });
       return;
     }
@@ -95,6 +97,8 @@ app.put("/termekek/:id", bodyParser.json(), function (req, res) {
     termekNev:req.body.termekNev,
     meret:req.body.meret,
     Ar:req.body.Ar,
+    link:req.body.link,
+    Tipus:req.body.Tipus,
   };
 
   const id = getId(req.params.id);
