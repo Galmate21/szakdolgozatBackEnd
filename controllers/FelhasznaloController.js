@@ -5,7 +5,8 @@ const Felhasznalo=require('../models/felhasznalok');
 const generateToken = require('../utils/generateToken');
 
 const register=asyncHandler(async(req, res)=>{
-    const {nev,cim,felhasznalonev,jelszo,email,isAdmin}=req.body;
+    const {nev,cim,felhasznalonev,jelszo,email}=req.body;
+    const isAdmin=false;
 
     const felhasznaloVan=await Felhasznalo.findOne({email,felhasznalonev});
 
