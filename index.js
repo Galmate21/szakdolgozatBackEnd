@@ -98,7 +98,7 @@ app.put("/termekek/:id", bodyParser.json(), function (req, res) {
     meret:req.body.meret,
     Ar:req.body.Ar,
     link:req.body.link,
-    Tipus:req.body.Tipus,
+    //Tipus:req.body.Tipus,
   };
 
   const id = getId(req.params.id);
