@@ -221,6 +221,47 @@ app.put("/felhasznalok/:id", bodyParser.json(),async function (req, res) {
     client.close();
   });
 });
+
+//put allapot
+app.put("/allapotfel/:id", bodyParser.json(),async function (req, res) {
+  const id = getId(req.params.id);
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const result = await collection.findOneAndUpdate(
+      { _id: id },
+      { $set:{isAdmin:true} }
+    );
+
+    if (!result.ok) {
+      res.send({ error: "not found" });
+      return;
+    }
+    res.send(result.value);
+ 
+    client.close();
+  });
+})
+
+app.put("/allapotle/:id", bodyParser.json(),async function (req, res) {
+  const id = getId(req.params.id);
+  const client = getClient();
+  client.connect(async (err) => {
+    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const result = await collection.findOneAndUpdate(
+      { _id: id },
+      { $set:{isAdmin:false} }
+    );
+
+    if (!result.ok) {
+      res.send({ error: "not found" });
+      return;
+    }
+    res.send(result.value);
+ 
+    client.close();
+  });
+})
  //delete
  app.delete("/felhasznalok/:id", function (req, res) {
   const id = getId(req.params.id);
