@@ -30,6 +30,7 @@ const register=asyncHandler(async(req, res)=>{
             felhasznalonev:felhasznalo.felhasznalonev,
             email:felhasznalo.email,
             isAdmin:felhasznalo.isAdmin,
+            cim:felhasznalo.cim,
             token:generateToken(felhasznalo._id),
             uzenet:"Sikeres regisztráció!"
 
@@ -54,6 +55,7 @@ const login=asyncHandler(async(req, res)=>{
             nev:felhasznalo.nev,
             felhasznalonev:felhasznalo.felhasznalonev,
             email:felhasznalo.email,
+            cim:felhasznalo.cim,
             token:generateToken(felhasznalo._id),
             isAdmin:felhasznalo.isAdmin,
         })

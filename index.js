@@ -20,6 +20,7 @@ app.use(cors({
   origin: '*'
 }));
 
+require('dotenv').config();
 function getId(raw) {
   try {
     return new ObjectId(raw);
@@ -31,7 +32,7 @@ function getId(raw) {
 function getClient() {
   const MongoClient = require("mongodb").MongoClient;
   const uri =
-    "mongodb+srv://teszt:asdasd123@cluster0.ts1ao.mongodb.net/szakdolgozat?retryWrites=true&w=majority";
+    process.env.MONGO;
   return new MongoClient(uri, { useNewUrlParser: true });
 }
 
@@ -39,7 +40,7 @@ function getClient() {
 
 //Adatbázis kapcsolat
 
-mongoose.connect('mongodb+srv://teszt:asdasd123@cluster0.ts1ao.mongodb.net/szakdolgozat?retryWrites=true&w=majority', {
+mongoose.connect(process.env.MONGO, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 	useCreateIndex: true
@@ -59,7 +60,7 @@ app.get("/termekek", function (req, res) {
   
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("termekek");
+    const collection = client.db(process.env.DB).collection("termekek");
     const termekek = await collection
     .find()
     .toArray();
@@ -80,7 +81,7 @@ app.post("/termekek", bodyParser.json(), function (req, res) {
 
 const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("termekek");
+    const collection = client.db(process.env.DB).collection("termekek");
     const result = await collection.insertOne(body);
     if (!result) {
       res.send({ error: "insert error" });
@@ -109,7 +110,7 @@ app.put("/termekek/:id", bodyParser.json(), function (req, res) {
 
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("termekek");
+    const collection = client.db(process.env.DB).collection("termekek");
     const result = await collection.findOneAndUpdate(
       { _id: id },
       { $set: ujTermek }
@@ -133,7 +134,7 @@ app.put("/termekek/:id", bodyParser.json(), function (req, res) {
 
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("termekek");
+    const collection = client.db(process.env.DB).collection("termekek");
     const result = await collection.deleteOne({ _id: id });
     if (!result.deletedCount) {
       res.send({ error: "not found" });
@@ -154,7 +155,7 @@ app.get("/termekek/:id", function (req, res) {
 
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("termekek");
+    const collection = client.db(process.env.DB).collection("termekek");
     const termek = await collection.findOne({ _id: id });
     if (!termek) {
       res.send({ error: "not found" });
@@ -173,7 +174,7 @@ app.get("/felhasznalok", function (req, res) {
   
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const collection = client.db(process.env.DB).collection("felhasznalo");
     const felhasznalok = await collection
     .find()
     .toArray();
@@ -206,7 +207,7 @@ app.put("/felhasznalok/:id", bodyParser.json(),async function (req, res) {
 
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const collection = client.db(process.env.DB).collection("felhasznalo");
     const result = await collection.findOneAndUpdate(
       { _id: id },
       { $set: ujFelhasznalo }
@@ -227,7 +228,7 @@ app.put("/allapotfel/:id", bodyParser.json(),async function (req, res) {
   const id = getId(req.params.id);
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const collection = client.db(process.env.DB).collection("felhasznalo");
     const result = await collection.findOneAndUpdate(
       { _id: id },
       { $set:{isAdmin:true} }
@@ -247,7 +248,7 @@ app.put("/allapotle/:id", bodyParser.json(),async function (req, res) {
   const id = getId(req.params.id);
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const collection = client.db(process.env.DB).collection("felhasznalo");
     const result = await collection.findOneAndUpdate(
       { _id: id },
       { $set:{isAdmin:false} }
@@ -272,7 +273,7 @@ app.put("/allapotle/:id", bodyParser.json(),async function (req, res) {
 
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const collection = client.db(process.env.DB).collection("felhasznalo");
     const result = await collection.deleteOne({ _id: id });
     if (!result.deletedCount) {
       res.send({ error: "not found" });
@@ -293,7 +294,7 @@ app.get("/felhasznalok/:id", function (req, res) {
 
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("felhasznalo");
+    const collection = client.db(process.env.DB).collection("felhasznalo");
     const felhasznalo = await collection.findOne({ _id: id });
     if (!felhasznalo) {
       res.send({ error: "not found" });
@@ -312,7 +313,7 @@ app.get("/megrendelesek", function (req, res) {
   
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const collection = client.db(process.env.DB).collection("megrendelesek");
     const megrendelesek = await collection
     .find()
     .toArray();
@@ -331,7 +332,7 @@ app.get("/megrendelesek/:id", function (req, res) {
 
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const collection = client.db(process.env.DB).collection("megrendelesek");
     const megrendeles = await collection.findOne({ _id: id });
     if (!megrendeles) {
       res.send({ error: "not found" });
@@ -351,14 +352,14 @@ app.post("/megrendelesek/:fId", bodyParser.json(), function (req, res) {
   const body={
    
     felhasznalo: fid,
-    megrendelt_termekek:[],
+    megrendelt_termekek:req.body.megrendelt_termekek,
     osszeg:req.body.osszeg,
     aktiv: false
   }
 
 const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const collection = client.db(process.env.DB).collection("megrendelesek");
     const result = await collection.insertOne(body);
     if (!result.insertedId) {
       res.send({ error: "insert error" });
@@ -380,7 +381,7 @@ app.delete("/megrendelesek/:id", function (req, res) {
 
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const collection = client.db(process.env.DB).collection("megrendelesek");
     const result = await collection.deleteOne({ _id: id });
     if (!result.deletedCount) {
       res.send({ error: "not found" });
@@ -409,7 +410,7 @@ app.put("/megrendelesek/:id", bodyParser.json(),async function (req, res) {
 
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const collection = client.db(process.env.DB).collection("megrendelesek");
     const result = await collection.findOneAndUpdate(
       { _id: id },
       { $set: ujmegrendeles }
@@ -441,7 +442,7 @@ app.post("/megrendelt/:tid", bodyParser.json(), function (req, res) {
 
   const client = getClient();
   client.connect(async (err) => {
-    const collection = client.db("szakdolgozat").collection("megrendelesek");
+    const collection = client.db(process.env.DB).collection("megrendelesek");
     const result = await collection.findOneAndUpdate(
       { _id: id },
       { $push: { megrendelt_termekek: ujRendelt } },
@@ -463,4 +464,5 @@ app.post("/megrendelt/:tid", bodyParser.json(), function (req, res) {
 
 
 console.log("A szerver fut az 5501 as porton");
+
 app.listen(5501);
