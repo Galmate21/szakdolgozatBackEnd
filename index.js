@@ -307,8 +307,7 @@ app.get("/felhasznalok/:id", function (req, res) {
 //Megrendeléssel kapcsolatos CRUD műveletek
 //get
 
-//Termékekre vonatkozó CRUD műveletek
-//get
+
 app.get("/megrendelesek", function (req, res) {
   
   const client = getClient();
@@ -322,7 +321,7 @@ app.get("/megrendelesek", function (req, res) {
   });
 });
 //get id
-
+ 
 app.get("/megrendelesek/:id", function (req, res) {
   const id = getId(req.params.id);
   if (!id) {
@@ -348,13 +347,19 @@ app.get("/megrendelesek/:id", function (req, res) {
 app.post("/megrendelesek/:fId", bodyParser.json(), function (req, res) {
 
   const fid = getId(req.params.fId);
- 
+ var date=new Date();
+ var y=date.getFullYear();
+ var m=date.getMonth()+1;
+ var d=date.getDate();
+ var datum=y+"-"+m+"-"+d;
   const body={
    
     felhasznalo: fid,
     megrendelt_termekek:req.body.megrendelt_termekek,
     osszeg:req.body.osszeg,
-    aktiv: false
+    aktiv: false,
+    lezart:false,
+    datum:datum
   }
 
 const client = getClient();
@@ -397,10 +402,7 @@ app.put("/megrendelesek/:id", bodyParser.json(),async function (req, res) {
   
   
 
-  const ujmegrendeles = {
-    felhasznalo: fid,
-    aktiv: req.body.aktiv
-  };
+  
 
   const id = getId(req.params.id);
   if (!id) {
@@ -413,7 +415,7 @@ app.put("/megrendelesek/:id", bodyParser.json(),async function (req, res) {
     const collection = client.db(process.env.DB).collection("megrendelesek");
     const result = await collection.findOneAndUpdate(
       { _id: id },
-      { $set: ujmegrendeles }
+      { $set: {aktiv:true} }
     );
 
     if (!result.ok) {
@@ -426,15 +428,13 @@ app.put("/megrendelesek/:id", bodyParser.json(),async function (req, res) {
   });
 });
 
-//megrendelt termék
-app.post("/megrendelt/:tid", bodyParser.json(), function (req, res) {
-  const tid = getId(req.params.tid);
-  const ujRendelt = {
-    mennyiseg: req.body.mennyiseg,
-    termekId:tid
-  };
+app.put("/megrendelesekLez/:id", bodyParser.json(),async function (req, res) {
+  
+  
 
-  const id = getId(req.body.id);
+  
+
+  const id = getId(req.params.id);
   if (!id) {
     res.send({ error: "invalid id" });
     return;
@@ -445,8 +445,7 @@ app.post("/megrendelt/:tid", bodyParser.json(), function (req, res) {
     const collection = client.db(process.env.DB).collection("megrendelesek");
     const result = await collection.findOneAndUpdate(
       { _id: id },
-      { $push: { megrendelt_termekek: ujRendelt } },
-      { returnOriginal: false }
+      { $set: {lezart:true} }
     );
 
     if (!result.ok) {
@@ -454,11 +453,10 @@ app.post("/megrendelt/:tid", bodyParser.json(), function (req, res) {
       return;
     }
     res.send(result.value);
+ 
     client.close();
   });
 });
-
-
 
 
 
