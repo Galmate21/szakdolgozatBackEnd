@@ -1,0 +1,282 @@
+[{
+  "_id": {
+    "$oid": "6242d45f00d3efa7ec25885b"
+  },
+  "termekNev": "Fehér pulóver",
+  "meret": [
+    "L",
+    "M",
+    "S",
+    "XL",
+    "XS"
+  ],
+  "Ar": "7200",
+  "link": "http://res.cloudinary.com/gb-web/image/upload/v1649280009/qq3ufugcwii8ytkewlp0.jpg",
+  "Tipus": "Pulóver"
+},{
+  "_id": {
+    "$oid": "6242d4ccd0f09b9536623781"
+  },
+  "termekNev": "Férfi fekete pulóver",
+  "meret": [
+    "M",
+    "XS"
+  ],
+  "Ar": "7800",
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546192/fPulover_ng3tom.jpg",
+  "Tipus": "Pulóver"
+},{
+  "_id": {
+    "$oid": "6242d532d0f09b9536623782"
+  },
+  "termekNev": "Férfi zöld kapucnis pulóver",
+  "meret": [
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "Ar": 7500,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546191/zPulover_eubccc.jpg",
+  "Tipus": "Pulóver"
+},{
+  "_id": {
+    "$oid": "6243529592ea10a5952ec000"
+  },
+  "termekNev": "Férfi fekete farmer nadrág",
+  "meret": [
+    "34",
+    "36",
+    "38",
+    "40",
+    "42"
+  ],
+  "Ar": 15500,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546193/Nadrag_hhnopo.jpg",
+  "Tipus": "Nadrág"
+},{
+  "_id": {
+    "$oid": "624354393a850320548d42ff"
+  },
+  "termekNev": "Férfi farmer nadrág",
+  "meret": [
+    "36",
+    "38",
+    "40"
+  ],
+  "Ar": 10500,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546193/kNadrag_mv3dvo.jpg",
+  "Tipus": "Nadrág"
+},{
+  "_id": {
+    "$oid": "624354aa3a850320548d4300"
+  },
+  "termekNev": "Férfi melegítő nadrág",
+  "meret": [
+    "36",
+    "38",
+    "40"
+  ],
+  "Ar": 10000,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546193/kMelegitonadrag_ebwyj6.jpg",
+  "Tipus": "Nadrág"
+},{
+  "_id": {
+    "$oid": "624355743a850320548d4303"
+  },
+  "termekNev": "Férfi szürke melegítő nadrág",
+  "meret": [
+    "36",
+    "38",
+    "40"
+  ],
+  "Ar": 10000,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648580283/szurkenadrag_gyrnqg.jpg",
+  "Tipus": "Nadrág"
+},{
+  "_id": {
+    "$oid": "624359c33a850320548d4304"
+  },
+  "termekNev": "Fehér póló",
+  "meret": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "Ar": 6000,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546192/feherPolo_ogy4je.jpg",
+  "Tipus": "Póló"
+},{
+  "_id": {
+    "$oid": "62435a083a850320548d4305"
+  },
+  "termekNev": "Fekete póló",
+  "meret": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "Ar": 6000,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546192/feketePolo_cv16hs.jpg",
+  "Tipus": "Póló"
+},{
+  "_id": {
+    "$oid": "62435af63a850320548d4306"
+  },
+  "termekNev": "Fekete Naruto mintás póló",
+  "meret": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "Ar": 7000,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546193/mintasPolo_bvlgf9.jpg",
+  "Tipus": "Póló"
+},{
+  "_id": {
+    "$oid": "62435b673a850320548d4307"
+  },
+  "termekNev": "Sárga póló",
+  "meret": [
+    "S",
+    "M",
+    "L"
+  ],
+  "Ar": 6000,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546193/sargaPolo_vib8gw.jpg",
+  "Tipus": "Póló"
+},{
+  "_id": {
+    "$oid": "624360d63a850320548d4308"
+  },
+  "termekNev": "Fehér cipő",
+  "meret": [
+    "40",
+    "42",
+    "44"
+  ],
+  "Ar": 26000,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546192/fehCipo_jstgkp.jpg",
+  "Tipus": "Cipő"
+},{
+  "_id": {
+    "$oid": "624362873a850320548d430a"
+  },
+  "termekNev": "Barna cipő",
+  "meret": [
+    "44"
+  ],
+  "Ar": 26000,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546192/bCipo_ucajqm.jpg",
+  "Tipus": "Cipő"
+},{
+  "_id": {
+    "$oid": "624364303a850320548d430b"
+  },
+  "termekNev": "Fehér téli kabát",
+  "meret": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "Ar": 36000,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546193/Kabat_a9exqe.jpg",
+  "Tipus": "Kabát"
+},{
+  "_id": {
+    "$oid": "624364b43a850320548d430d"
+  },
+  "termekNev": "Fehér őszi dzseki",
+  "meret": [
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "Ar": 26000,
+  "link": "https://res.cloudinary.com/gb-web/image/upload/v1648546192/fehDzseki_l2kuhd.jpg",
+  "Tipus": "Kabát"
+},{
+  "_id": {
+    "$oid": "624ea851baedaa6c07b4206f"
+  },
+  "termekNev": "Lila férfi pulóver",
+  "meret": [
+    "M",
+    "S",
+    "XS"
+  ],
+  "Ar": "5500",
+  "link": "http://res.cloudinary.com/gb-web/image/upload/v1649322059/kernivpppzbw8ttbk5fb.jpg",
+  "Tipus": "Pulóver"
+},{
+  "_id": {
+    "$oid": "624ea907baedaa6c07b42070"
+  },
+  "termekNev": "Kék férfi pulóver",
+  "meret": [
+    "M",
+    "S"
+  ],
+  "Ar": "6800",
+  "link": "http://res.cloudinary.com/gb-web/image/upload/v1649322241/jsraqqdmmj9driaudx0y.jpg",
+  "Tipus": "Pulóver"
+},{
+  "_id": {
+    "$oid": "624ea94ebaedaa6c07b42071"
+  },
+  "termekNev": "Feteke cipő",
+  "meret": [
+    "42"
+  ],
+  "Ar": "13600",
+  "link": "http://res.cloudinary.com/gb-web/image/upload/v1649322311/piiglp0gas9t2vw9v1rn.jpg",
+  "Tipus": "Cipő"
+},{
+  "_id": {
+    "$oid": "624ea9debaedaa6c07b42072"
+  },
+  "termekNev": "Fehér nadrág",
+  "meret": [
+    "32",
+    "40",
+    "42"
+  ],
+  "Ar": "7000",
+  "link": "http://res.cloudinary.com/gb-web/image/upload/v1649322455/xgohdweekutfs0fv8n2o.jpg",
+  "Tipus": "Nadrág"
+},{
+  "_id": {
+    "$oid": "624eaee6baedaa6c07b42073"
+  },
+  "termekNev": "Sárga férfi pulóver",
+  "meret": [
+    "M",
+    "S",
+    "XS"
+  ],
+  "Ar": "6500",
+  "link": "http://res.cloudinary.com/gb-web/image/upload/v1649323710/ewae0ulkbq7lzug3wrgi.jpg",
+  "Tipus": "Pulóver"
+},{
+  "_id": {
+    "$oid": "624eaf38baedaa6c07b42074"
+  },
+  "termekNev": "Fekete téli kabát",
+  "meret": [
+    "L",
+    "S",
+    "XL"
+  ],
+  "Ar": "36000",
+  "link": "http://res.cloudinary.com/gb-web/image/upload/v1649323789/nt5auatmmwggpiciepbu.jpg",
+  "Tipus": "Kabát"
+}]

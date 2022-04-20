@@ -1,0 +1,23 @@
+[{
+  "_id": {
+    "$oid": "6258ca360135ed1910f24225"
+  },
+  "nev": "Tesztelő Admin",
+  "cim": "1234 Teszt Teszt utca 56.",
+  "felhasznalonev": "TesztAdmin",
+  "jelszo": "$2a$10$h4ut2f6zoG/196Q0VK/50u6ipwBNv54JMaJM0Z78umBqFX6Bmd7G.",
+  "email": "Teszt@example.hu",
+  "isAdmin": true,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "625b57b07b4ec3045ced89fe"
+  },
+  "nev": "Teszt Felhasználó",
+  "cim": "4321 Teszt Teszt utca 12.",
+  "felhasznalonev": "TesztUser",
+  "jelszo": "$2a$10$/E0muPJdzqwJC3sBiK62z.dNF1ctD1riTHPfx1vwVdGD8Z/X3YvzK",
+  "email": "TesztUser@example.hu",
+  "isAdmin": false,
+  "__v": 0
+}]
