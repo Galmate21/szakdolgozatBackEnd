@@ -1,7 +1,7 @@
 var supertest=require('supertest');
 const request=supertest('localhost:5501/');
 
-/*
+
 test("GET felhasznalok",async()=>{
     const response=await request.get('felhasznalok');
     
@@ -81,8 +81,8 @@ test("POST megrendelesek",async ()=>{
     
     expect(response.status).toBe(200);
 });
-*/
-/*
+
+
 test("PUT megrendelesek fogadasa",async ()=>{
     
     const response=await request.put('megrendelesek/62642b6d5da750f7e4f0bbed');
@@ -96,14 +96,14 @@ test("PUT megrendelesek lezarasa",async ()=>{
     
     expect(response.status).toBe(200);
 });
-*/
+
 test("DELETE megrendelesek",async ()=>{
     
     const response=await request.delete('megrendelesek/62642b6d5da750f7e4f0bbed');
     
     expect(response.status).toBe(200);
 });
-/*
+
 test("PUT felhasznalok",async ()=>{
     let body={
         "nev": "Tesztelő Jest",
@@ -149,7 +149,7 @@ test("PUT termekek",async ()=>{
     const response=await request.put('termekek/62642b6d5da750f7e4f0bbec').send(body);
     
     expect(response.status).toBe(200);
-});*/
+});
 
 test("DELETE termekek",async ()=>{
     
