@@ -47,7 +47,7 @@ const register=asyncHandler(async(req, res)=>{
 const login=asyncHandler(async(req, res)=>{
     const {email,jelszo}=req.body;
 
-    const felhasznalo=await Felhasznalo.findOne({email});
+    const felhasznalo=await Felhasznalo.findOne({email:email});
 
     if(felhasznalo&&(await felhasznalo.matchPassword(jelszo))){
         res.status(201).json({
