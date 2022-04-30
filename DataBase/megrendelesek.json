@@ -1,1 +1,32 @@
-[]
+[{
+  "_id": {
+    "$oid": "626d9028b5db94671fec7cf6"
+  },
+  "felhasznalo": {
+    "$oid": "625b57b07b4ec3045ced89fe"
+  },
+  "megrendelt_termekek": [
+    {
+      "termekId": "6242d4ccd0f09b9536623781",
+      "meret": "XS",
+      "mennyiseg": 1,
+      "Ar": "7800"
+    },
+    {
+      "termekId": "624354aa3a850320548d4300",
+      "meret": "36",
+      "mennyiseg": 1,
+      "Ar": 10000
+    },
+    {
+      "termekId": "62435af63a850320548d4306",
+      "meret": "M",
+      "mennyiseg": 2,
+      "Ar": 7000
+    }
+  ],
+  "osszeg": 31800,
+  "aktiv": false,
+  "lezart": false,
+  "datum": "2022-4-30"
+}]
